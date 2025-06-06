@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: etldb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+  etl:
+    build: ./src
+    container_name: etl
+    depends_on:
+      - postgres
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
