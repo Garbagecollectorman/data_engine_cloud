@@ -44,6 +44,7 @@ for _, row in df.iterrows():
         #cur.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
         #        (row['id'], row['name'], row['email']))
     except:
+        pass
 
 conn.commit()
 cur.close()
