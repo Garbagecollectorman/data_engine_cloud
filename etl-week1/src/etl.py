@@ -35,17 +35,17 @@ def main():
     )
     """)
 
-# Insert data
-for _, row in df.iterrows():
-    try:
-        validated = DataRow(**row)
-        cur.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
-                (validated.id, validated.name, validated.email))
-        #cur.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
-        #        (row['id'], row['name'], row['email']))
-    except:
-        pass
+    # Insert data
+    for _, row in df.iterrows():
+        try:
+            validated = DataRow(**row)
+            cur.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
+                    (validated.id, validated.name.lower(), validated.email.lower()))
+            #cur.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
+            #        (row['id'], row['name'], row['email']))
+        except:
+            pass
 
-conn.commit()
-cur.close()
-conn.close()
+    conn.commit()
+    cur.close()
+    conn.close()
